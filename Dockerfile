@@ -13,8 +13,5 @@ COPY gzip.conf  /etc/nginx/conf.d/gzip.conf
 # - - - - - - - - - - - - - - - - -
 # git commit sha image is built from
 # - - - - - - - - - - - - - - - - -
-
 ARG SHA
 ENV SHA=${SHA}
-
-RUN echo ${SHA} > ${NGINX_DIR}/sha.txt
