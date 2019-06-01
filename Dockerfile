@@ -15,4 +15,6 @@ COPY gzip.conf  /etc/nginx/conf.d/gzip.conf
 # - - - - - - - - - - - - - - - - -
 
 ARG SHA
+ENV SHA=${SHA}
+
 RUN echo ${SHA} > ${NGINX_DIR}/sha.txt
