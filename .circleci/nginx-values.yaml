@@ -1,0 +1,48 @@
+# Default values for cyber-dojo-service.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# app name
+fullnameOverride: "nginx"
+
+# deployment spec
+replicaCount: 1
+ 
+       
+
+# containers
+# provide default values that you HAVE to overwrite in your values.yaml file
+containers: 
+  - name: nginx
+    image: cyberdojo/nginx
+    tag: "bf98a93"
+    resources: 
+      limits:
+       memory: 128Mi
+      requests:
+       memory: 128Mi
+    # livenessProbe:
+    #   path: /health
+    #   port: 80
+    # readinessProbe:
+    #   path: /health
+    #   port: 80
+
+envFromSecret: {}
+ 
+
+nodeSelector: {}
+
+affinity: {}
+
+tolerations: []
+
+# service
+service: 
+  port: 80  
+
+# ingress:
+#   enabled: true
+#   host:   
+  
+  

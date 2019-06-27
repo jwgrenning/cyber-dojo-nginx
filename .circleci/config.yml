@@ -29,13 +29,14 @@ jobs:
             PUBLISH=publish-tagged-image.sh
             curl -O --fail ${CIRCLECI_SCRIPT_DIR}/${PUBLISH}
             chmod 700 ./${PUBLISH}
-            echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin            
+            echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
             ./${PUBLISH}
 
   deploy-image-to-beta:
     docker:
       - image: cyberdojo/gcloud-kubectl-helm
     steps:
+      - checkout
       - run:
           name: authenticate with gcloud and deploy with helm
           command: |
@@ -45,7 +46,7 @@ jobs:
             gcloud container clusters get-credentials "$CLUSTER" --zone "$ZONE" --project "$PROJECT"
             helm init --client-only
             helm repo add praqma https://praqma-helm-repo.s3.amazonaws.com/
-            #helm upgrade --install --namespace=beta ${HELM_REUSE_VALUES} --set-string image.nginx.tag=${CIRCLE_SHA1:0:7} beta-cyber-dojo praqma/cyber-dojo
+            helm upgrade --install --namespace=beta --set-string containers[0].tag=${CIRCLE_SHA1:0:7} -f .circleci/nginx-values.yaml beta-nginx praqma/cyber-dojo-service --version 0.1.1
 
 workflows:
   version: 2
