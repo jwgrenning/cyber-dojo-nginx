@@ -7,16 +7,15 @@ fullnameOverride: "nginx"
 
 # deployment spec
 replicaCount: 1
- 
-       
+
+
 
 # containers
 # provide default values that you HAVE to overwrite in your values.yaml file
-containers: 
+containers:
   - name: nginx
     image: cyberdojo/nginx
-    tag: "bf98a93"
-    resources: 
+    resources:
       limits:
        memory: 128Mi
       requests:
@@ -29,7 +28,7 @@ containers:
     #   port: 80
 
 envFromSecret: {}
- 
+
 
 nodeSelector: {}
 
@@ -38,11 +37,9 @@ affinity: {}
 tolerations: []
 
 # service
-service: 
-  port: 80  
+service:
+  port: 80
 
-# ingress:
-#   enabled: true
-#   host:   
-  
-  
+ingress:
+  enabled: true
+  host: beta.cyber-dojo.org
