@@ -35,4 +35,6 @@ tolerations: []
 
 ingress:
   enabled: true
-  host: www.cyber-dojo.org
+  hosts:
+    - cyber-dojo.org
+    - www.cyber-dojo.org
