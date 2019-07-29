@@ -35,4 +35,5 @@ tolerations: []
 
 ingress:
   enabled: true
-  host: beta.cyber-dojo.org
+  hosts:
+    - beta.cyber-dojo.org
