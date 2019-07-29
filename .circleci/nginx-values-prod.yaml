@@ -12,12 +12,11 @@ service:
 containers:
   - name: nginx
     image: cyberdojo/nginx
-    tag: ""
     resources:
       limits:
-        memory: 128Mi
+        memory: 64Mi
       requests:
-        memory: 128Mi
+        memory: 64Mi
     # livenessProbe:
     #   path: /sha
     #   port: 80
