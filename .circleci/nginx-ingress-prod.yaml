@@ -1,0 +1,6 @@
+
+ingress:
+  enabled: true
+  hosts:
+    - cyber-dojo.org
+    - www.cyber-dojo.org
