@@ -50,7 +50,7 @@ jobs:
               --namespace=beta \
               --set-string containers[0].tag=${CIRCLE_SHA1:0:7} \
               -f .circleci/nginx-values.yaml \
-              -f .circleci/nginx-ingress-beta.yaml \
+                 .circleci/nginx-ingress-beta.yaml \
               beta-nginx \
               praqma/cyber-dojo-service \
               --version 0.2.3
@@ -74,7 +74,7 @@ jobs:
               --namespace=prod \
               --set-string containers[0].tag=${CIRCLE_SHA1:0:7} \
               -f .circleci/nginx-values.yaml \
-              -f .circleci/nginx-ingress-prod.yaml \
+                 .circleci/nginx-ingress-prod.yaml \
               prod-nginx \
               praqma/cyber-dojo-service \
               --version 0.2.3

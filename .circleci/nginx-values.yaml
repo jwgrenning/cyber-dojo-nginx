@@ -17,12 +17,12 @@ containers:
         memory: 64Mi
       requests:
         memory: 64Mi
-    # livenessProbe:
-    #   path: /sha
-    #   port: 80
-    # readinessProbe:
-    #   path: /ready?
-    #   port: 80
+  # livenessProbe:
+  #   path: /alive?
+  #   port: 80
+  # readinessProbe:
+  #   path: /ready?
+  #   port: 80
 
 envFromSecret: {}
 
