@@ -21,3 +21,4 @@ build_service_image nginx
 # will use the tagged image.
 readonly IMAGE=cyberdojo/nginx
 docker tag ${IMAGE}:latest ${IMAGE}:${SHA:0:7}
+docker run --rm ${IMAGE}:latest sh -c 'echo ${SHA}'
