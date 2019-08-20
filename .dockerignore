@@ -1,4 +1,5 @@
 *
 !images/
+!traffic-light/
 !nginx.conf
 !gzip.conf
