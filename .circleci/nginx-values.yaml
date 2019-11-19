@@ -10,10 +10,12 @@ containers:
   - name: nginx
     image: cyberdojo/nginx
     resources:
-      limits:
-        memory: 64Mi
       requests:
+        cpu: 50m
         memory: 64Mi
+      limits:
+        cpu: 100m
+        memory: 96Mi
   # livenessProbe:
   #   path: /alive?
   #   port: 80
