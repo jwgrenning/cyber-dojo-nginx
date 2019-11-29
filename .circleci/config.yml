@@ -54,7 +54,7 @@ jobs:
               --values .circleci/nginx-ingress-beta.yaml \
               beta-nginx \
               praqma/cyber-dojo-service \
-              --version 0.2.3
+              --version 0.2.4
 
   deploy-to-prod:
     docker:
@@ -78,7 +78,7 @@ jobs:
               --values .circleci/nginx-ingress-prod.yaml \
               prod-nginx \
               praqma/cyber-dojo-service \
-              --version 0.2.3
+              --version 0.2.4
 
 workflows:
   version: 2
