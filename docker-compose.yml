@@ -3,7 +3,7 @@ version: '3.7'
 
 services:
   nginx:
-    image: cyberdojo/nginx
+    image: ${IMAGE_NAME}
     build:
       context: .
       args:
