@@ -1,4 +1,4 @@
-FROM  nginx:latest
+FROM nginx:latest
 LABEL maintainer=jon@jaggersoft.com
 
 ARG NGINX_DIR=/usr/share/nginx/html
