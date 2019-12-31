@@ -7,7 +7,7 @@ build_image()
 {
   echo
   docker-compose \
-    --file "${ROOT_DIR}/docker-compose.yml" \
+    --file "${ROOT_DIR}/app/docker-compose.yml" \
     build \
     --build-arg COMMIT_SHA="$(git_commit_sha)"
 }
