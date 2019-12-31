@@ -5,11 +5,10 @@ readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 # - - - - - - - - - - - - - - - - - - - - - - - -
 build_image()
 {
-  echo
-  docker-compose \
-    --file "${ROOT_DIR}/app/docker-compose.yml" \
-    build \
-    --build-arg COMMIT_SHA="$(git_commit_sha)"
+  docker build \
+    --build-arg COMMIT_SHA=$(git_commit_sha) \
+    --tag $(image_name) \
+    "${ROOT_DIR}/app"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
