@@ -3,8 +3,7 @@ version: '3.7'
 
 services:
   nginx:
-    image: ${IMAGE_NAME}
+    image: ${CYBER_DOJO_NGINX_IMAGE}
     build:
       context: .
-      args:
-        - SHA
+      args: [ COMMIT_SHA ]

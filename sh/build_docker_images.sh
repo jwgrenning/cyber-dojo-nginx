@@ -1,25 +1,76 @@
-#!/bin/bash
-set -e
-
-export IMAGE_NAME=${1:-cyberdojo/nginx}
+#!/bin/bash -e
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
-export SHA=$(cd "${ROOT_DIR}" && git rev-parse HEAD)
 
-build_service_image()
+# - - - - - - - - - - - - - - - - - - - - - - - -
+build_image()
 {
   echo
   docker-compose \
     --file "${ROOT_DIR}/docker-compose.yml" \
-      build \
-        "${1}"
+    build \
+    --build-arg COMMIT_SHA="$(git_commit_sha)"
 }
 
-build_service_image nginx
+# - - - - - - - - - - - - - - - - - - - - - - - -
+git_commit_sha()
+{
+  echo $(cd "${ROOT_DIR}" && git rev-parse HEAD)
+}
 
-# Assuming we do not have any new nginx commits, nginx's latest commit
-# sha will match the image tag inside versioner's .env file.
-# This means we can tag to it and a [cyber-dojo up] call
-# will use the tagged image.
-docker tag ${IMAGE_NAME}:latest ${IMAGE_NAME}:${SHA:0:7}
-docker run --rm ${IMAGE_NAME}:latest sh -c 'echo ${SHA}'
+# - - - - - - - - - - - - - - - - - - - - - - - -
+cat_env_vars()
+{
+  docker run --rm cyberdojo/versioner:latest sh -c 'cat /app/.env'
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+image_name()
+{
+  echo "${CYBER_DOJO_NGINX_IMAGE}"
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+image_sha()
+{
+  docker run --rm $(image_name):latest sh -c 'echo ${SHA}'
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+tag_image()
+{
+  local -r image="$(image_name)"
+  local -r sha="$(git_commit_sha)"
+  local -r tag="${sha:0:7}"
+  docker tag "${image}:latest" "${image}:${tag}"
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+on_ci_publish_tagged_images()
+{
+  if ! on_ci; then
+    echo 'not on CI so not publishing tagged images'
+    return
+  fi
+  echo 'on CI so publishing tagged images'
+  local -r image="$(image_name)"
+  local -r sha="$(image_sha)"
+  local -r tag="${sha:0:7}"
+  # DOCKER_USER, DOCKER_PASS are in ci context
+  echo "${DOCKER_PASS}" | docker login --username "${DOCKER_USER}" --password-stdin
+  docker push "${image}:latest"
+  docker push "${image}:${tag}"
+  docker logout
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+on_ci()
+{
+  [ -n "${CIRCLECI}" ]
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+export $(cat_env_vars)
+build_image
+tag_image
+on_ci_publish_tagged_images

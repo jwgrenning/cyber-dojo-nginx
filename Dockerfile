@@ -11,6 +11,6 @@ RUN chmod -R +r ${NGINX_DIR}
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY gzip.conf  /etc/nginx/conf.d/gzip.conf
 
-ARG SHA
-ENV SHA=${SHA}
+ARG COMMIT_SHA
+ENV SHA=${COMMIT_SHA}
 RUN echo ${SHA} > ${NGINX_DIR}/sha.txt
