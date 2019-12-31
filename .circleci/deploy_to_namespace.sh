@@ -21,7 +21,7 @@ helm upgrade \
   --namespace="${NAMESPACE}" \
   --set-string containers[0].tag=${CIRCLE_SHA1:0:7} \
   --values .circleci/nginx-values.yaml \
-  --values .circleci/nginx-ingress-beta.yaml \
+  --values .circleci/nginx-ingress-${NAMESPACE}.yaml \
   ${NAMESPACE}-nginx \
   praqma/cyber-dojo-service \
   --version 0.2.4
