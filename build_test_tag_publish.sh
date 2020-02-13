@@ -42,6 +42,8 @@ tag_image()
   local -r sha="$(git_commit_sha)"
   local -r tag="${sha:0:7}"
   docker tag "${image}:latest" "${image}:${tag}"
+  echo "${sha}"
+  echo "${tag}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
