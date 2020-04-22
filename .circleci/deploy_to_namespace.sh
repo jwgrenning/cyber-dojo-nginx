@@ -24,4 +24,4 @@ helm upgrade \
   --values .circleci/nginx-ingress-${NAMESPACE}.yaml \
   ${NAMESPACE}-nginx \
   praqma/cyber-dojo-service \
-  --version 0.2.4
+  --version 0.2.5
