@@ -1,7 +1,7 @@
 
 fullnameOverride: "nginx"
 
-replicaCount: 3
+replicaCount: 1
 
 service:
   port: 80
