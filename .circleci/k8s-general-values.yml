@@ -3,12 +3,8 @@ fullnameOverride: "nginx"
 
 replicaCount: 1
 
-service:
-  port: 80
-
 containers:
   - name: nginx
-    image: cyberdojo/nginx
     resources:
       requests:
         cpu: 50m
