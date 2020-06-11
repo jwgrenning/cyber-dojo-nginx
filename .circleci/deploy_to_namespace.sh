@@ -31,11 +31,9 @@ readonly NAMESPACE="${1}" # beta | prod
 readonly CYBER_DOJO_NGINX_TAG="${CIRCLE_SHA1:0:7}"
 
 helm_upgrade \
-   "${NAMESPACE}" \
+   "${NAMESPACE}" "nginx" "praqma/cyber-dojo-service --version 0.2.5" \
    "${CYBER_DOJO_NGINX_IMAGE}" \
    "${CYBER_DOJO_NGINX_TAG}" \
    "${CYBER_DOJO_NGINX_PORT}" \
    ".circleci/k8s-general-values.yml" \
-   ".circleci/k8s-${NAMESPACE}-values.yml" \
-   "nginx" \
-   "praqma/cyber-dojo-service --version 0.2.5"
+   ".circleci/k8s-${NAMESPACE}-values.yml"
