@@ -9,7 +9,7 @@ readonly CYBER_DOJO_NGINX_TAG="${CIRCLE_SHA1:0:7}"
 
 gcloud_init
 helm_init
-helm_upgrade_probe_no_prometheus_yes \
+helm_upgrade_probe_no_prometheus_no \
    "${NAMESPACE}" \
    "nginx" \
    "${CYBER_DOJO_NGINX_IMAGE}" \
