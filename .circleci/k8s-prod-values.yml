@@ -1,6 +1,5 @@
 
 ingress:
-  enabled: true
   tls_enabled: true
   annotations:
     kubernetes.io/ingress.class: "nginx"
