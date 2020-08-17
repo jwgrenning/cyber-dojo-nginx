@@ -42,6 +42,7 @@ tag_image()
   local -r sha="$(git_commit_sha)"
   local -r tag="${sha:0:7}"
   docker tag "${image}:latest" "${image}:${tag}"
+  echo
   echo "CYBER_DOJO_NGINX_SHA=${sha}"
   echo "CYBER_DOJO_NGINX_TAG=${tag}"
 }
