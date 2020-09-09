@@ -23,5 +23,5 @@ helm_upgrade_probe_no_prometheus_no \
    "${CYBER_DOJO_NGINX_IMAGE}" \
    "${CYBER_DOJO_NGINX_TAG}" \
    "${CYBER_DOJO_NGINX_PORT}" \
-   "${YAML_VALUES_FILE}"
+   "${YAML_VALUES_FILE}" \
    "${MY_DIR}/k8s-${NAMESPACE}-values.yml"
