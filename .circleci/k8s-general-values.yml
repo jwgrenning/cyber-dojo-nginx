@@ -3,6 +3,11 @@ fullnameOverride: "nginx"
 
 replicaCount: 1
 
+envFromSecret: {}
+nodeSelector: {}
+affinity: {}
+tolerations: []
+
 containers:
   - name: nginx
     resources:
@@ -17,11 +22,3 @@ containers:
   # readinessProbe:
   #   path: /ready?
   #   port: 80
-
-envFromSecret: {}
-
-nodeSelector: {}
-
-affinity: {}
-
-tolerations: []
