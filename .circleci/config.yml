@@ -7,7 +7,12 @@ jobs:
       - checkout
       - run:
           name: Build image, test it, tag it, publish it
-          command: ./build_test_tag_publish.sh
+          command: |
+            # DOCKER_USER, DOCKER_PASS are in ci context
+            echo "${DOCKER_PASS}" | docker login --username "${DOCKER_USER}" --password-stdin
+            ./build_test_publish.sh
+            docker logout
+
 
   deploy-to-beta:
     docker:
