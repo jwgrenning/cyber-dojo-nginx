@@ -3,7 +3,7 @@
 readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-versioner_env_vars()
+echo_versioner_env_vars()
 {
   docker run --rm cyberdojo/versioner:latest
   local -r sha="$(git_commit_sha)"
@@ -71,8 +71,8 @@ check_embedded_SHA_env_var()
 show_SHA_env_var()
 {
   echo
-  echo "CYBER_DOJO_NGINX_SHA=${CYBER_DOJO_NGINX_SHA}"
-  echo "CYBER_DOJO_NGINX_TAG=${CYBER_DOJO_NGINX_TAG}"
+  echo "echo CYBER_DOJO_NGINX_SHA=${CYBER_DOJO_NGINX_SHA}"
+  echo "echo CYBER_DOJO_NGINX_TAG=${CYBER_DOJO_NGINX_TAG}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -108,7 +108,7 @@ on_ci()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-export $(versioner_env_vars)
+export $(echo_versioner_env_vars)
 remove_old_image_layers
 build_tagged_image
 tag_image_to_latest
