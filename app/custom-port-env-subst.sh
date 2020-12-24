@@ -2,7 +2,7 @@
 
 set -e
 
-# First, just ensure this script is running...
+# Get empty envsubst in place
 
 readonly dir=/etc/nginx/conf.d
-cp ${dir}/default.conf.template  ${dir}/default.conf
+envsubst "NOT_YET" < "${dir}/default.conf.template" > "${dir}/default.conf"
