@@ -4,7 +4,12 @@ set -e
 
 # Run one hard-wired env-var subst
 
-export CYBER_DOJO_SHAS_PORT=4522
+echo_cyber_dojo_ports()
+{
+  echo CYBER_DOJO_SHAS_PORT=4522
+}
+
+export $(echo_cyber_dojo_ports)
 
 readonly defined_envs="$(printf '${%s} ' $(env | cut -d= -f1))"
 
