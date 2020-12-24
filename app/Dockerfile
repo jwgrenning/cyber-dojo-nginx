@@ -13,5 +13,6 @@ ENV SHA=${COMMIT_SHA}
 RUN echo ${SHA} > ${NGINX_DIR}/sha.txt
 
 COPY custom-port-env-subst.sh /docker-entrypoint.d
-COPY nginx.conf.template      /etc/nginx/conf.d/default.conf.template
+COPY nginx.conf.template      /docker-entrypoint.d
+
 COPY gzip.conf                /etc/nginx/conf.d/gzip.conf

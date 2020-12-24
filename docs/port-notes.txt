@@ -8,18 +8,11 @@ This will simplify the k8s yaml files.
 So I'd like to parameterize the ports.
 How to do this so the same nginx image works for both k8s and docker???
 
-See https://gist.github.com/xaviervia/6adea3ddba269cadb794
-The idea from stevencohn?
-Create a script that does a sequence of sed env replacements.
-Call the script in the Dockerfile (after adding it).
-The sed replacement needs to be part of the CMD string
-to allow parameterization of the image at start time.
+See https://stackoverflow.com/questions/40608055
+There is already a mechanism in nginx :-)
 Now commander can add env-var to its yaml file.
 k8s yaml scripts add different env-var.
 In fact they should only need the one env-var for the single port number.
-
-See https://stackoverflow.com/questions/40608055
-There is already a mechanism in nginx :-)
 
 It might be possible to switch ports on the live k8s site
 without downtime by temporarily running each service on 2 ports.
