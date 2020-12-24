@@ -1,7 +1,7 @@
 *
 !images/
 !js/
-!custom-port-env-subst.sh
+!template-port-env-subst.sh
 !gzip.conf
 !nginx.conf.template
 !ports.env

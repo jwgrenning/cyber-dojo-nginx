@@ -43,7 +43,7 @@ build_tagged_image()
   docker build \
     --build-arg COMMIT_SHA=${CYBER_DOJO_NGINX_SHA} \
     --tag ${CYBER_DOJO_NGINX_IMAGE}:${CYBER_DOJO_NGINX_TAG} \
-    "${ROOT_DIR}/app"
+    "${ROOT_DIR}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
