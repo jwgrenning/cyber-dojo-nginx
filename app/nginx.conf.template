@@ -179,7 +179,7 @@ server {
   }
   location /shas {
     rewrite ^/shas/(.*) /$1 break;
-    proxy_pass http://shas:4522;
+    proxy_pass http://shas:${CYBER_DOJO_SHAS_PORT};
   }
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
