@@ -18,6 +18,9 @@ Now commander can add env-var to its yaml file.
 k8s yaml scripts add different env-var.
 In fact they should only need the one env-var for the single port number.
 
+See https://stackoverflow.com/questions/40608055
+There is already a mechanism in nginx :-)
+
 It might be possible to switch ports on the live k8s site
 without downtime by temporarily running each service on 2 ports.
 Eg by literally starting two sinatra servers.
