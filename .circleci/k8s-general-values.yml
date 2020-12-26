@@ -16,9 +16,13 @@ containers:
         memory: 64Mi
       limits:
         memory: 96Mi
+    env:
+      CYBER_DOJO_PROMETHEUS: "true"
+      CYBER_DOJO_K8S_PORT: "19661"
+
   # livenessProbe:
-  #   path: /alive?
+  #   path: /alive
   #   port: 80
   # readinessProbe:
-  #   path: /ready?
+  #   path: /ready
   #   port: 80
