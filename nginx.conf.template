@@ -104,6 +104,11 @@ server {
     proxy_pass http://model:${CYBER_DOJO_MODEL_PORT};
   }
 
+  location /model/kata_manifest {
+    rewrite ^/model/kata_manifest /kata_manifest break;
+    proxy_pass http://model:${CYBER_DOJO_MODEL_PORT};
+  }
+
   location /model/kata_event {
     rewrite ^/model/kata_event /kata_event break;
     proxy_pass http://model:${CYBER_DOJO_MODEL_PORT};
@@ -147,8 +152,8 @@ server {
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # The shas service is a simple one-page service that shows
-  # all the services' git-commit shas used to create their currently
-  # running image.
+  # all the services' git-commit shas used to create their
+  # currently running image.
 
   location /custom-start-points/sha {
     rewrite ^/custom-start-points/sha /sha break;
