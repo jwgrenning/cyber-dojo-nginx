@@ -104,6 +104,31 @@ server {
     proxy_pass http://saver:${CYBER_DOJO_SAVER_PORT};
   }
 
+  location /saver/kata_manifest {
+    rewrite ^/saver/kata_manifest /kata_manifest break;
+    proxy_pass http://saver:${CYBER_DOJO_SAVER_PORT};
+  }
+
+  location /saver/kata_event {
+    rewrite ^/saver/kata_event /kata_event break;
+    proxy_pass http://saver:${CYBER_DOJO_SAVER_PORT};
+  }
+
+  location /saver/kata_events {
+    rewrite ^/saver/kata_events /kata_events break;
+    proxy_pass http://saver:${CYBER_DOJO_SAVER_PORT};
+  }
+
+  location /saver/kata_option_get {
+    rewrite ^/saver/kata_option_get /kata_option_get break;
+    proxy_pass http://saver:${CYBER_DOJO_SAVER_PORT};
+  }
+
+  location /saver/kata_option_set {
+    rewrite ^/saver/kata_option_set /kata_option_set break;
+    proxy_pass http://saver:${CYBER_DOJO_SAVER_PORT};
+  }
+
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Model paths
 
