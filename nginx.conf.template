@@ -130,45 +130,7 @@ server {
   }
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # Model paths
-
-  location /model/group_manifest {
-    rewrite ^/model/group_manifest /group_manifest break;
-    proxy_pass http://model:${CYBER_DOJO_MODEL_PORT};
-  }
-
-  location /model/group_joined {
-    rewrite ^/model/group_joined /group_joined break;
-    proxy_pass http://model:${CYBER_DOJO_MODEL_PORT};
-  }
-
-  location /model/kata_manifest {
-    rewrite ^/model/kata_manifest /kata_manifest break;
-    proxy_pass http://model:${CYBER_DOJO_MODEL_PORT};
-  }
-
-  location /model/kata_event {
-    rewrite ^/model/kata_event /kata_event break;
-    proxy_pass http://model:${CYBER_DOJO_MODEL_PORT};
-  }
-
-  location /model/kata_events {
-    rewrite ^/model/kata_events /kata_events break;
-    proxy_pass http://model:${CYBER_DOJO_MODEL_PORT};
-  }
-
-  location /model/kata_option_get {
-    rewrite ^/model/kata_option_get /kata_option_get break;
-    proxy_pass http://model:${CYBER_DOJO_MODEL_PORT};
-  }
-
-  location /model/kata_option_set {
-    rewrite ^/model/kata_option_set /kata_option_set break;
-    proxy_pass http://model:${CYBER_DOJO_MODEL_PORT};
-  }
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # Dashboard paths
+  # Dashboard 
 
   location /dashboard/ {
     rewrite ^/dashboard/(.*) /$1 break;
@@ -176,7 +138,7 @@ server {
   }
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # Differ paths
+  # Differ 
 
   location /differ/diff_summary {
     rewrite ^/differ/diff_summary /diff_summary break;
@@ -209,10 +171,6 @@ server {
   location /differ/sha {
     rewrite ^/differ/sha /sha break;
     proxy_pass http://differ:${CYBER_DOJO_DIFFER_PORT};
-  }
-  location /model/sha {
-    rewrite ^/model/sha /sha break;
-    proxy_pass http://model:${CYBER_DOJO_MODEL_PORT};
   }
   location /runner/sha {
     rewrite ^/runner/sha /sha break;
