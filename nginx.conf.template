@@ -129,6 +129,11 @@ server {
     proxy_pass http://saver:${CYBER_DOJO_SAVER_PORT};
   }
 
+  location /saver/kata_download {
+    rewrite ^/saver/kata_download /kata_download break;
+    proxy_pass http://saver:${CYBER_DOJO_SAVER_PORT};
+  }
+
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Dashboard 
 
