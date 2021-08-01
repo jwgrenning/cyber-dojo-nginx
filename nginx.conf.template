@@ -134,6 +134,16 @@ server {
     proxy_pass http://saver:${CYBER_DOJO_SAVER_PORT};
   }
 
+  location /saver/kata_fork {
+    rewrite ^/saver/kata_fork /kata_fork break;
+    proxy_pass http://saver:${CYBER_DOJO_SAVER_PORT};
+  }
+
+  location /saver/group_fork {
+    rewrite ^/saver/group_fork /group_fork break;
+    proxy_pass http://saver:${CYBER_DOJO_SAVER_PORT};
+  }
+
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Dashboard 
 
