@@ -43,16 +43,6 @@ server {
   rewrite ^/creator/group_language_choose  /creator/choose_ltf?type=group             permanent;
   rewrite ^/creator/kata_language_choose   /creator/choose_ltf?type=single            permanent;
 
-  location /forker/fork_individual {
-    rewrite ^/forker/fork_individual       /fork_individual break;
-    proxy_pass http://creator:${CYBER_DOJO_CREATOR_PORT};
-  }
-
-  location /forker/fork_group {
-    rewrite ^/forker/fork_group            /fork_group break;
-    proxy_pass http://creator:${CYBER_DOJO_CREATOR_PORT};
-  }
-
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Deprecated routes
 
