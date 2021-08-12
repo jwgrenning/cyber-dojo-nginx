@@ -1,16 +1,10 @@
 #!/bin/bash -Eeu
 
-readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-# - - - - - - - - - - - - - - - - - - - - - - - -
-echo_versioner_env_vars()
-{
-  docker run --rm cyberdojo/versioner:latest
-  local -r sha="$(git_commit_sha)"
-  local -r tag="${sha:0:7}"
-  echo "CYBER_DOJO_NGINX_SHA=${sha}"
-  echo "CYBER_DOJO_NGINX_TAG=${tag}"
-}
+export ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly SH_DIR="${ROOT_DIR}/scripts"
+source "${SH_DIR}/echo_versioner_env_vars.sh"
+source "${SH_DIR}/merkely.sh"
+export $(echo_versioner_env_vars)
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 remove_old_image_layers()
@@ -25,11 +19,11 @@ remove_all_but_latest()
 {
   local -r docker_image_ls="${1}"
   local -r name="${2}"
-  for image_name in `echo "${docker_image_ls}" | grep "${name}:"`
+  for image in `echo "${docker_image_ls}" | grep "${name}:"`
   do
-    if [ "${image_name}" != "${name}:latest" ]; then
-      if [ "${image_name}" != "${name}:<none>" ]; then
-        docker image rm "${image_name}"
+    if [ "${image}" != "${name}:latest" ]; then
+      if [ "${image}" != "${name}:<none>" ]; then
+        docker image rm "${image}"
       fi
     fi
   done
@@ -76,12 +70,6 @@ show_SHA_env_var()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-git_commit_sha()
-{
-  echo "$(cd "${ROOT_DIR}" && git rev-parse HEAD)"
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - -
 sha_inside_image()
 {
   docker run --rm "${CYBER_DOJO_NGINX_IMAGE}:${CYBER_DOJO_NGINX_TAG}" sh -c 'echo ${SHA}'
@@ -109,9 +97,12 @@ on_ci()
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 export $(echo_versioner_env_vars)
+
 remove_old_image_layers
+on_ci_merkely_declare_pipeline
 build_tagged_image
 tag_image_to_latest
 check_embedded_SHA_env_var
 show_SHA_env_var
 on_ci_publish_tagged_images
+on_ci_merkely_log_artifact
