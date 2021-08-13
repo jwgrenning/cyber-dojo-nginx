@@ -34,3 +34,5 @@ merkely_log_deployment()
     --volume /var/run/docker.sock:/var/run/docker.sock \
       ${MERKELY_CHANGE}
 }
+
+docker pull ${CYBER_DOJO_NGINX_IMAGE}:${CYBER_DOJO_NGINX_TAG}
