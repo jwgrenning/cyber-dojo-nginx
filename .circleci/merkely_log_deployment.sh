@@ -1,7 +1,7 @@
 #!/bin/bash -Eeu
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source "${ROOT_DIR}/sh/echo_versioner_env_vars.sh"
+source "${ROOT_DIR}/scripts/echo_versioner_env_vars.sh"
 export $(echo_versioner_env_vars)
 
 MERKELY_CHANGE=merkely/change:latest
