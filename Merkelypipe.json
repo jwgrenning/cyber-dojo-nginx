@@ -1,7 +1,7 @@
 {
     "owner": "cyber-dojo",
     "name": "nginx",
-    "description": "Pipeline Controls for Merkely",
+    "description": "Reverse proxy",
     "visibility": "public",
     "template": [
         "artifact"
