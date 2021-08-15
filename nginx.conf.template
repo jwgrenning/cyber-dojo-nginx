@@ -22,40 +22,6 @@ server {
   rewrite ^/dojo/index(.*) /creator/home permanent;
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # Old route redirects...
-  # GET requests can use a rewrite. POST requests need a proxy-pass-redirect
-  # because a rewrite on a POST turns it into a GET.
-
-  rewrite ^/individual/show/?(.*) /creator/enter?id=$1 permanent;
-  rewrite ^/group/show/?(.*)      /creator/enter?id=$1 permanent;
-  rewrite ^/kata/group/?(.*)      /creator/enter?id=$1 permanent;
-
-  rewrite ^/id_join/show/?(.*)    /creator/enter?id=$1 permanent;
-  rewrite ^/id_rejoin/show/?(.*)  /creator/enter?id=$1 permanent;
-  rewrite ^/id_review/show/?(.*)  /creator/enter?id=$1 permanent;
-
-  rewrite ^/creator/group_custom_choose    /creator/choose_custom_problem?type=group  permanent;
-  rewrite ^/creator/kata_custom_choose     /creator/choose_custom_problem?type=single permanent;
-
-  rewrite ^/creator/group_exercise_choose  /creator/choose_problem?type=group         permanent;
-  rewrite ^/creator/kata_exercise_choose   /creator/choose_problem?type=single        permanent;
-
-  rewrite ^/creator/group_language_choose  /creator/choose_ltf?type=group             permanent;
-  rewrite ^/creator/kata_language_choose   /creator/choose_ltf?type=single            permanent;
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # Deprecated routes
-
-  location /setup_custom_start_point/save_group_json {
-    rewrite ^/setup_custom_start_point/save_group_json /deprecated_group_create_custom break;
-    proxy_pass http://creator:${CYBER_DOJO_CREATOR_PORT};
-  }
-  location /setup_custom_start_point/save_individual_json {
-    rewrite ^/setup_custom_start_point/save_individual_json /deprecated_kata_create_custom  break;
-    proxy_pass http://creator:${CYBER_DOJO_CREATOR_PORT};
-  }
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Read-Eval-Print-Loop service (uses web-sockets)
 
   location /repler/ {
@@ -74,120 +40,51 @@ server {
   rewrite ^/assets/favicon-(.*).ico /usr/share/nginx/html/images/favicon.ico permanent;
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # Paths to create/enter/fork an exercise
+  # Microservices
 
   location /creator/ {
     rewrite ^/creator/(.*) /$1 break;
     proxy_pass http://creator:${CYBER_DOJO_CREATOR_PORT};
   }
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # Saver paths
-
-  location /saver/group_manifest {
-    rewrite ^/saver/group_manifest /group_manifest break;
+  location /saver/ {
+    rewrite ^/saver/(.*) /$1 break;
     proxy_pass http://saver:${CYBER_DOJO_SAVER_PORT};
   }
-
-  location /saver/group_joined {
-    rewrite ^/saver/group_joined /group_joined break;
-    proxy_pass http://saver:${CYBER_DOJO_SAVER_PORT};
-  }
-
-  location /saver/kata_manifest {
-    rewrite ^/saver/kata_manifest /kata_manifest break;
-    proxy_pass http://saver:${CYBER_DOJO_SAVER_PORT};
-  }
-
-  location /saver/kata_event {
-    rewrite ^/saver/kata_event /kata_event break;
-    proxy_pass http://saver:${CYBER_DOJO_SAVER_PORT};
-  }
-
-  location /saver/kata_events {
-    rewrite ^/saver/kata_events /kata_events break;
-    proxy_pass http://saver:${CYBER_DOJO_SAVER_PORT};
-  }
-
-  location /saver/kata_option_get {
-    rewrite ^/saver/kata_option_get /kata_option_get break;
-    proxy_pass http://saver:${CYBER_DOJO_SAVER_PORT};
-  }
-
-  location /saver/kata_option_set {
-    rewrite ^/saver/kata_option_set /kata_option_set break;
-    proxy_pass http://saver:${CYBER_DOJO_SAVER_PORT};
-  }
-
-  location /saver/kata_download {
-    rewrite ^/saver/kata_download /kata_download break;
-    proxy_pass http://saver:${CYBER_DOJO_SAVER_PORT};
-  }
-
-  location /saver/kata_fork {
-    rewrite ^/saver/kata_fork /kata_fork break;
-    proxy_pass http://saver:${CYBER_DOJO_SAVER_PORT};
-  }
-
-  location /saver/group_fork {
-    rewrite ^/saver/group_fork /group_fork break;
-    proxy_pass http://saver:${CYBER_DOJO_SAVER_PORT};
-  }
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # Dashboard 
 
   location /dashboard/ {
     rewrite ^/dashboard/(.*) /$1 break;
     proxy_pass http://dashboard:${CYBER_DOJO_DASHBOARD_PORT};
   }
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # Differ 
-
-  location /differ/diff_summary {
-    rewrite ^/differ/diff_summary /diff_summary break;
+  location /differ/ {
+    rewrite ^/differ/(.*) /$1 break;
     proxy_pass http://differ:${CYBER_DOJO_DIFFER_PORT};
   }
 
-  location /differ/diff_lines {
-    rewrite ^/differ/diff_lines /diff_lines break;
-    proxy_pass http://differ:${CYBER_DOJO_DIFFER_PORT};
-  }
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # The shas service is a simple one-page service that shows
-  # all the services' git-commit shas used to create their
-  # currently running image.
-
-  location /custom-start-points/sha {
-    rewrite ^/custom-start-points/sha /sha break;
+  location /custom-start-points/ {
+    rewrite ^/custom-start-points/(.*) /$1 break;
     proxy_pass http://custom-start-points:${CYBER_DOJO_CUSTOM_START_POINTS_PORT};
   }
-  location /exercises-start-points/sha {
-    rewrite ^/exercises-start-points/sha /sha break;
+  
+  location /exercises-start-points/ {
+    rewrite ^/exercises-start-points/(.*) /$1 break;
     proxy_pass http://exercises-start-points:${CYBER_DOJO_EXERCISES_START_POINTS_PORT};
   }
-  location /languages-start-points/sha {
-    rewrite ^/languages-start-points/sha /sha break;
+  
+  location /languages-start-points/ {
+    rewrite ^/languages-start-points/(.*) /$1 break;
     proxy_pass http://languages-start-points:${CYBER_DOJO_LANGUAGES_START_POINTS_PORT};
   }
 
-  location /differ/sha {
-    rewrite ^/differ/sha /sha break;
-    proxy_pass http://differ:${CYBER_DOJO_DIFFER_PORT};
-  }
-  location /runner/sha {
-    rewrite ^/runner/sha /sha break;
-    proxy_pass http://runner:${CYBER_DOJO_RUNNER_PORT};
-  }
-  location /saver/sha {
-    rewrite ^/saver/sha /sha break;
-    proxy_pass http://saver:${CYBER_DOJO_SAVER_PORT};
-  }
   location /shas {
     rewrite ^/shas/(.*) /$1 break;
     proxy_pass http://shas:${CYBER_DOJO_SHAS_PORT};
+  }
+
+  location /runner/sha {
+    rewrite ^/runner/sha /sha break;
+    proxy_pass http://runner:${CYBER_DOJO_RUNNER_PORT};
   }
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
