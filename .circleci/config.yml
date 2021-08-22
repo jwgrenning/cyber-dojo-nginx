@@ -1,5 +1,7 @@
 version: 2
+
 jobs:
+
   build-publish:
     machine:
       image: ubuntu-1604:201903-01
@@ -24,32 +26,17 @@ jobs:
             source ./.circleci/deploy_to_namespace.sh
             deploy_to_namespace beta
 
-  merkely-log-deployment-to-beta-env:
+  log-beta-deployment-to-merkely:
     machine:
       image: ubuntu-2004:202008-01
     steps:
       - checkout
       - run:
-          name: Log deployment to beta in Merkely
+          name: Log beta deployment to Merkely
           command: |
             source ./.circleci/merkely_log_deployment.sh
             merkely_log_deployment beta https://staging.app.merkely.com
             merkely_log_deployment beta https://app.merkely.com
-
-  merkely-report-beta-env:
-    docker:
-      - image: ghcr.io/merkely-development/reporter:latest
-    steps:
-      - checkout
-      - run:
-          name: Connect to k8s cluster
-          command: |
-            ./.circleci/connect-to-k8s.sh
-      - run:
-          name: Report k8s cluster namespace beta and send to staging.app.merkely.com and app.merkely.com
-          command: |
-            reporter report env k8s beta -H https://staging.app.merkely.com --owner cyber-dojo --namespace beta
-            reporter report env k8s beta -H https://app.merkely.com         --owner cyber-dojo --namespace beta
 
   deploy-to-prod-env:
     docker:
@@ -62,37 +49,24 @@ jobs:
             source ./.circleci/deploy_to_namespace.sh
             deploy_to_namespace prod
 
-  merkely-log-deployment-to-prod-env:
+  log-prod-deployment-to-merkely:
     machine:
       image: ubuntu-2004:202008-01
     steps:
       - checkout
       - run:
-          name: Log deployment to beta in Merkely
+          name: Log prod deployment to Merkely
           command: |
             source ./.circleci/merkely_log_deployment.sh
             merkely_log_deployment prod https://staging.app.merkely.com
             merkely_log_deployment prod https://app.merkely.com
 
-  merkely-report-prod-env:
-    docker:
-      - image: ghcr.io/merkely-development/reporter:latest
-    steps:
-      - checkout
-      - run:
-          name: Connect to k8s cluster
-          command: |
-            ./.circleci/connect-to-k8s.sh
-      - run:
-          name: Report k8s cluster namespace beta and send to staging.app.merkely.com and app.merkely.com
-          command: |
-            reporter report env k8s prod -H https://staging.app.merkely.com --owner cyber-dojo --namespace prod
-            reporter report env k8s prod -H https://app.merkely.com         --owner cyber-dojo --namespace prod
 
 workflows:
   version: 2
   build-publish-deploy:
     jobs:
+
       - build-publish:
           context: cyberdojo-context
           filters:
@@ -103,26 +77,19 @@ workflows:
           context: cyberdojo-context
           requires: [ build-publish ]
 
-      - merkely-log-deployment-to-beta-env:
+      - log-beta-deployment-to-merkely:
           context: cyberdojo-context
           requires: [ deploy-to-beta-env ]
-
-      - merkely-report-beta-env:
-          context: cyberdojo-context
-          requires: [ merkely-log-deployment-to-beta-env ]
 
       - approve-to-prod-env:
           type: approval
-          requires: [ deploy-to-beta-env ]
+          requires: [ log-beta-deployment-to-merkely ]
 
       - deploy-to-prod-env:
           context: cyberdojo-context
           requires: [ approve-to-prod-env ]
 
-      - merkely-log-deployment-to-prod-env:
+      - log-prod-deployment-to-merkely:
           context: cyberdojo-context
           requires: [ deploy-to-prod-env ]
 
-      - merkely-report-prod-env:
-          context: cyberdojo-context
-          requires: [ merkely-log-deployment-to-prod-env ]
