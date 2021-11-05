@@ -1,5 +1,4 @@
-#!/bin/sh
-set -e
+#!/bin/bash -e
 
 # This script is automatically run by the nginx server when it starts.
 # See docker-entrypoint.sh in the root of an nginx container.
