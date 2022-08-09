@@ -3,7 +3,7 @@ name: Main
 on:
   push:
     branches:
-      - gh-actions
+      - master
 
 jobs:
   pre-build:
