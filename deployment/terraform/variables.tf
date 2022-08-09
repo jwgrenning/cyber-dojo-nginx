@@ -1,5 +1,5 @@
 variable "service_name" {
-  type = string
+  type    = string
   default = "nginx"
 }
 
@@ -8,22 +8,23 @@ variable "env" {
 }
 
 variable "app_port" {
-  type = number
+  type    = number
   default = 80
 }
 
 variable "cpu_limit" {
-  type = number
+  type    = number
   default = 50
 }
 
 variable "mem_limit" {
   type = number
-  default = 96
+  #default = 96
+  default = 512
 }
 
 variable "mem_reservation" {
-  type = number
+  type    = number
   default = 64
 }
 
@@ -34,7 +35,9 @@ variable "TAGGED_IMAGE" {
 # App variables
 variable "app_env_vars" {
   type = map(any)
-  default = {}
+  default = {
+    DEPLOY_TO_ECS = "true"
+  }
 }
 
 variable "ecr_replication_targets" {

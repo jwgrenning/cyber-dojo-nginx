@@ -6,3 +6,4 @@
 !nginx.conf.template
 !ports.docker.env
 !ports.k8s.env
+!ports.ecs.env

@@ -1,5 +1,5 @@
-env          = "staging"
-app_domain_names_list  = ["beta.cyber-dojo.org"]
+env                   = "staging"
+app_domain_names_list = ["beta.cyber-dojo.org"]
 
 # Allow to replicate app docker images to these accounts
 ecr_replication_targets = [

@@ -53,7 +53,7 @@ resource "aws_ecs_task_definition" "this" {
   dynamic "volume" {
     for_each = var.volumes
     content {
-      name = volume.value["name"]
+      name      = volume.value["name"]
       host_path = volume.value["host_path"]
     }
   }
@@ -65,5 +65,5 @@ resource "aws_ecs_task_definition" "this" {
 }
 
 locals {
-  mount_points = [for volume in var.volumes :  {"sourceVolume"  = "${volume.name}", "containerPath" = "${volume.containerPath}"}]
+  mount_points = [for volume in var.volumes : { "sourceVolume" = "${volume.name}", "containerPath" = "${volume.containerPath}" }]
 }

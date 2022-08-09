@@ -8,9 +8,12 @@ readonly nginx_docker_dir=/docker-entrypoint.d
 
 ports_filename()
 {
-  if [[ -z "${CYBER_DOJO_K8S_PORT}" ]]; then
+  if [[ -z "${CYBER_DOJO_K8S_PORT}" ]] && [[ -z "${DEPLOY_TO_ECS}" ]]; then
     echo docker > /tmp/port.mode
     echo "${nginx_docker_dir}/ports.docker.env"
+  elif [[ "${DEPLOY_TO_ECS}" = true ]]; then
+    echo ecs > /tmp/port.mode
+    echo "${nginx_docker_dir}/ports.ecs.env"
   else
     echo k8s > /tmp/port.mode
     echo "${nginx_docker_dir}/ports.k8s.env"

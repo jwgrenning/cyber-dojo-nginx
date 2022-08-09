@@ -10,6 +10,9 @@ server {
   listen ${CYBER_DOJO_NGINX_PORT};
   server_name localhost;
 
+  # If using local DNS server 127.0.0.1, dnsmasq need to be installed on the node
+  resolver ${NGINX_RESOLVER_IP};
+
   # Path for static files
   root /usr/share/nginx/html;
 
@@ -24,8 +27,10 @@ server {
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Read-Eval-Print-Loop service (uses web-sockets)
 
+  set $repler_hostname ${CYBER_DOJO_REPLER_HOSTNAME}; 
+
   location /repler/ {
-    proxy_pass http://${CYBER_DOJO_REPLER_HOSTNAME}:${CYBER_DOJO_REPLER_PORT}/repl/;
+    proxy_pass http://$repler_hostname:${CYBER_DOJO_REPLER_PORT}/repl/;
     proxy_http_version 1.1;
     proxy_set_header Upgrade $http_upgrade;
     proxy_set_header Connection $connection_upgrade;
@@ -42,49 +47,62 @@ server {
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Microservices
 
+  # Set services hostnames to force re-resolution of the DNS names
+  # https://medium.com/driven-by-code/dynamic-dns-resolution-in-nginx-22133c22e3ab
+  set $creator_hostname ${CYBER_DOJO_CREATOR_HOSTNAME};
+  set $saver_hostname ${CYBER_DOJO_SAVER_HOSTNAME};
+  set $dashboard_hostname ${CYBER_DOJO_DASHBOARD_HOSTNAME};
+  set $differ_hostname ${CYBER_DOJO_DIFFER_HOSTNAME};
+  set $custom_start_points_hostname ${CYBER_DOJO_CUSTOM_START_POINTS_HOSTNAME};
+  set $exercises_start_points_hostname ${CYBER_DOJO_EXERCISES_START_POINTS_HOSTNAME};
+  set $languages_start_points_hostname ${CYBER_DOJO_CREATOR_HOSTNAME};
+  set $shas_hostname ${CYBER_DOJO_SHAS_HOSTNAME};
+  set $runner_hostname ${CYBER_DOJO_RUNNER_HOSTNAME};
+  set $web_hostname ${CYBER_DOJO_WEB_HOSTNAME};
+
   location /creator/ {
     rewrite ^/creator/(.*) /$1 break;
-    proxy_pass http://${CYBER_DOJO_CREATOR_HOSTNAME}:${CYBER_DOJO_CREATOR_PORT};
+    proxy_pass http://$creator_hostname:${CYBER_DOJO_CREATOR_PORT};
   }
 
   location /saver/ {
     rewrite ^/saver/(.*) /$1 break;
-    proxy_pass http://${CYBER_DOJO_SAVER_HOSTNAME}:${CYBER_DOJO_SAVER_PORT};
+    proxy_pass http://$saver_hostname:${CYBER_DOJO_SAVER_PORT};
   }
 
   location /dashboard/ {
     rewrite ^/dashboard/(.*) /$1 break;
-    proxy_pass http://${CYBER_DOJO_DASHBOARD_HOSTNAME}:${CYBER_DOJO_DASHBOARD_PORT};
+    proxy_pass http://$dashboard_hostname:${CYBER_DOJO_DASHBOARD_PORT};
   }
 
   location /differ/ {
     rewrite ^/differ/(.*) /$1 break;
-    proxy_pass http://${CYBER_DOJO_DIFFER_HOSTNAME}:${CYBER_DOJO_DIFFER_PORT};
+    proxy_pass http://$differ_hostname:${CYBER_DOJO_DIFFER_PORT};
   }
 
   location /custom-start-points/ {
     rewrite ^/custom-start-points/(.*) /$1 break;
-    proxy_pass http://${CYBER_DOJO_CUSTOM_START_POINTS_HOSTNAME}:${CYBER_DOJO_CUSTOM_START_POINTS_PORT};
+    proxy_pass http://$custom_start_points_hostname:${CYBER_DOJO_CUSTOM_START_POINTS_PORT};
   }
   
   location /exercises-start-points/ {
     rewrite ^/exercises-start-points/(.*) /$1 break;
-    proxy_pass http://${CYBER_DOJO_EXERCISES_START_POINTS_HOSTNAME}:${CYBER_DOJO_EXERCISES_START_POINTS_PORT};
+    proxy_pass http://$exercises_start_points_hostname:${CYBER_DOJO_EXERCISES_START_POINTS_PORT};
   }
   
   location /languages-start-points/ {
     rewrite ^/languages-start-points/(.*) /$1 break;
-    proxy_pass http://${CYBER_DOJO_LANGUAGES_START_POINTS_HOSTNAME}:${CYBER_DOJO_LANGUAGES_START_POINTS_PORT};
+    proxy_pass http://$languages_start_points_hostname:${CYBER_DOJO_LANGUAGES_START_POINTS_PORT};
   }
 
   location /shas {
     rewrite ^/shas/(.*) /$1 break;
-    proxy_pass http://${CYBER_DOJO_SHAS_HOSTNAME}:${CYBER_DOJO_SHAS_PORT};
+    proxy_pass http://$shas_hostname:${CYBER_DOJO_SHAS_PORT};
   }
 
   location /runner/sha {
     rewrite ^/runner/sha /sha break;
-    proxy_pass http://${CYBER_DOJO_RUNNER_HOSTNAME}:${CYBER_DOJO_RUNNER_PORT};
+    proxy_pass http://$runner_hostname:${CYBER_DOJO_RUNNER_PORT};
   }
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -108,7 +126,7 @@ server {
 
     # Try to serve static files from nginx.
     if (!-f $request_filename) {
-      proxy_pass http://${CYBER_DOJO_WEB_HOSTNAME}:${CYBER_DOJO_WEB_PORT};
+      proxy_pass http://$web_hostname:${CYBER_DOJO_WEB_PORT};
       break;
     }
   }
