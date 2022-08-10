@@ -26,6 +26,8 @@ jobs:
     uses: cyber-dojo/reusable-actions-workflows/.github/workflows/build_test_push_dockerhub.yml@master
     secrets:
       MERKELY_API_TOKEN: ${{ secrets.MERKELY_API_TOKEN }}
+      DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
 
   build-push-ecr:
     needs: [pre-build, build-test-push-dockerhub]
