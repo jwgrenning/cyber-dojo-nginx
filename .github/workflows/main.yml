@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+env:
+  service_name: nginx
 
 jobs:
   pre-build:
@@ -41,14 +43,14 @@ jobs:
       AWS_ACCOUNT_ID: 244531986313
       AWS_REGION: eu-central-1
       registry: 244531986313.dkr.ecr.eu-central-1.amazonaws.com
-      service_name: nginx
+      service_name: ${{ env.service_name }}
       gh_actions_iam_role_name: gh_actions_services
   
   deploy-staging:
     needs: [pre-build, build-test-push-dockerhub, build-push-ecr]
     uses: cyber-dojo/reusable-actions-workflows/.github/workflows/deploy.yml@master
     with:
-      tagged_image: 244531986313.dkr.ecr.eu-central-1.amazonaws.com/nginx:${{ needs.pre-build.outputs.tag }}
+      tagged_image: 244531986313.dkr.ecr.eu-central-1.amazonaws.com/${{ env.service_name }}:${{ needs.pre-build.outputs.tag }}
       AWS_ACCOUNT_ID: 244531986313
       AWS_REGION: eu-central-1
       gh_actions_iam_role_name: gh_actions_services
@@ -59,7 +61,7 @@ jobs:
     needs: [pre-build, build-test-push-dockerhub, build-push-ecr, deploy-staging]
     uses: cyber-dojo/reusable-actions-workflows/.github/workflows/deploy.yml@master
     with:
-      tagged_image: 274425519734.dkr.ecr.eu-central-1.amazonaws.com/creator:${{ needs.pre-build.outputs.tag }}
+      tagged_image: 274425519734.dkr.ecr.eu-central-1.amazonaws.com/${{ env.service_name }}:${{ needs.pre-build.outputs.tag }}
       AWS_ACCOUNT_ID: 274425519734
       AWS_REGION: eu-central-1
       gh_actions_iam_role_name: gh_actions_services
