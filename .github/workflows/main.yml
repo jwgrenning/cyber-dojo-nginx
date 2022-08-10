@@ -31,6 +31,7 @@ jobs:
     with:
       CIRCLE_BUILD_NUM: ${{github.run_number}}
       CIRCLE_BUILD_URL: ${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}
+      BUILD_SCRIPT_NAME: build_test_publish.sh
 
   build-push-ecr:
     needs: [pre-build, build-test-push-dockerhub]
