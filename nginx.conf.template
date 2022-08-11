@@ -10,7 +10,8 @@ server {
   listen ${CYBER_DOJO_NGINX_PORT};
   server_name localhost;
 
-  # If using local DNS server 127.0.0.1, dnsmasq need to be installed on the node
+  # Use Docker embedded DNS server at 127.0.0.11 if running locally
+  # https://stackoverflow.com/questions/35744650/docker-network-nginx-resolver
   resolver ${NGINX_RESOLVER_IP};
 
   # Path for static files
