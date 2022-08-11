@@ -35,6 +35,7 @@ build_tagged_image()
 {
   echo; echo Building tagged image
   docker build \
+    --no-cache \
     --build-arg COMMIT_SHA=${CYBER_DOJO_NGINX_SHA} \
     --tag ${CYBER_DOJO_NGINX_IMAGE}:${CYBER_DOJO_NGINX_TAG} \
     "${ROOT_DIR}"

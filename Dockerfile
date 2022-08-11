@@ -18,4 +18,6 @@ COPY ports.k8s.env              /docker-entrypoint.d
 COPY ports.ecs.env              /docker-entrypoint.d
 COPY template-port-env-subst.sh /docker-entrypoint.d
 
+RUN apt-get update && apt-get install -y dnsmasq
+
 COPY gzip.conf  /etc/nginx/conf.d/gzip.conf
