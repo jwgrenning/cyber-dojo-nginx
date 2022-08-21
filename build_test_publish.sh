@@ -3,7 +3,7 @@
 export ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly SH_DIR="${ROOT_DIR}/scripts"
 source "${SH_DIR}/echo_versioner_env_vars.sh"
-source "${SH_DIR}/merkely.sh"
+source "${SH_DIR}/kosli.sh"
 export $(echo_versioner_env_vars)
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -100,10 +100,10 @@ on_ci()
 export $(echo_versioner_env_vars)
 
 remove_old_image_layers
-on_ci_merkely_declare_pipeline
+on_ci_kosli_declare_pipeline
 build_tagged_image
 tag_image_to_latest
 check_embedded_SHA_env_var
 show_SHA_env_var
 on_ci_publish_tagged_images
-on_ci_merkely_log_artifact
+on_ci_kosli_log_artifact
