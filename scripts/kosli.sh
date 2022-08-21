@@ -65,7 +65,7 @@ kosli_log_artifact()
 on_ci_kosli_log_artifact()
 {
   if ! on_ci ; then
-    echo 'Not on CI so not logging artifact to kosli'
+    echo 'Not on CI so not logging artifact to Kosli'
     return
   fi
   kosli_log_artifact https://staging.app.kosli.com
