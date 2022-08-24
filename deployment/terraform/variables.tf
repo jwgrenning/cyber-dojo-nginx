@@ -50,6 +50,6 @@ variable "ecr_replication_origin" {
   default = ""
 }
 
-variable "app_domain_names_list" {
-  type = set(string)
+variable "app_domain_name" {
+  type = string
 }
