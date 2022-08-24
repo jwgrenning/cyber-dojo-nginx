@@ -1,4 +1,4 @@
-env                   = "prod"
+env             = "prod"
 app_domain_name = "prod.cyber-dojo.org"
 
 # Allow to replicate app docker images from this account

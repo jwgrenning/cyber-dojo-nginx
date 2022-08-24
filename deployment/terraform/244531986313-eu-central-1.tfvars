@@ -1,4 +1,4 @@
-env                   = "staging"
+env             = "staging"
 app_domain_name = "beta.cyber-dojo.org"
 
 # Allow to replicate app docker images to these accounts
