@@ -1,7 +1,4 @@
-
-[![CircleCI](https://circleci.com/gh/cyber-dojo/nginx.svg?style=svg)](https://circleci.com/gh/cyber-dojo/nginx)
-
-# cyberdojo/nginx docker image
+[![Github Action (main)](https://github.com/cyber-dojo/nginx/actions/workflows/main.yml/badge.svg)](https://github.com/cyber-dojo/nginx/actions)
 
 - The source for the [cyberdojo/nginx](https://hub.docker.com/r/cyberdojo/nginx/tags) Docker image.
 - A docker-containerized micro-service for [https://cyber-dojo.org](http://cyber-dojo.org).
