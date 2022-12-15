@@ -1,9 +1,0 @@
-{
-    "owner": "cyber-dojo",
-    "name": "nginx",
-    "description": "Reverse proxy",
-    "visibility": "public",
-    "template": [
-        "artifact"
-    ]
-}

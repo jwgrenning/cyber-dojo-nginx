@@ -1,7 +1,8 @@
-#!/bin/bash -Eeu
+#!/usr/bin/env bash
+set -Eeu
 
 export ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-readonly SH_DIR="${ROOT_DIR}/scripts"
+readonly SH_DIR="${ROOT_DIR}/sh"
 source "${SH_DIR}/echo_versioner_env_vars.sh"
 source "${SH_DIR}/kosli.sh"
 export $(echo_versioner_env_vars)
@@ -93,7 +94,7 @@ on_ci_publish_tagged_images()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 on_ci()
 {
-  [ -n "${CIRCLECI:-}" ]
+  [ -n "${CI:-}" ]
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -106,4 +107,6 @@ tag_image_to_latest
 check_embedded_SHA_env_var
 show_SHA_env_var
 on_ci_publish_tagged_images
-on_ci_kosli_log_artifact
+on_ci_kosli_report_artifact_creation
+on_ci_kosli_assert_artifact
+
