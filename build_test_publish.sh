@@ -67,8 +67,8 @@ check_embedded_SHA_env_var()
 show_SHA_env_var()
 {
   echo
-  echo "echo CYBER_DOJO_NGINX_SHA=${CYBER_DOJO_NGINX_SHA}"
-  echo "echo CYBER_DOJO_NGINX_TAG=${CYBER_DOJO_NGINX_TAG}"
+  echo "CYBER_DOJO_NGINX_SHA=${CYBER_DOJO_NGINX_SHA}"
+  echo "CYBER_DOJO_NGINX_TAG=${CYBER_DOJO_NGINX_TAG}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
