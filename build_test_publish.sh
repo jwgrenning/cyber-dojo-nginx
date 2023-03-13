@@ -101,12 +101,12 @@ on_ci()
 export $(echo_versioner_env_vars)
 
 remove_old_image_layers
-on_ci_kosli_declare_pipeline
+on_ci_kosli_create_flow
 build_tagged_image
 tag_image_to_latest
 check_embedded_SHA_env_var
 show_SHA_env_var
 on_ci_publish_tagged_images
-on_ci_kosli_report_artifact_creation
+on_ci_kosli_report_artifact
 on_ci_kosli_assert_artifact
 
