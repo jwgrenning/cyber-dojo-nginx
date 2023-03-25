@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -Eeu
 
-export KOSLI_OWNER=cyber-dojo
+export KOSLI_ORG=cyber-dojo
 export KOSLI_FLOW=nginx
 
 readonly KOSLI_HOST_STAGING=https://staging.app.kosli.com
@@ -24,11 +24,13 @@ kosli_report_artifact()
 {
   local -r hostname="${1}"
 
-  cd "$(root_dir)"  # So we don't need --repo-root flag
+  pushd "$(root_dir)" > /dev/null  # So we don't need --repo-root flag
 
   kosli report artifact "$(artifact_name)" \
       --artifact-type docker \
       --host "${hostname}"
+
+  popd > /dev/null
 }
 
 # - - - - - - - - - - - - - - - - - - -
@@ -61,33 +63,28 @@ kosli_expect_deployment()
 # - - - - - - - - - - - - - - - - - - -
 on_ci_kosli_create_flow()
 {
-  if ! on_ci ; then
-    echo 'Not on CI so not declaring pipeline to Kosli'
-    return
+  if on_ci ; then
+    kosli_create_flow "${KOSLI_HOST_STAGING}"
+    kosli_create_flow "${KOSLI_HOST_PRODUCTION}"
   fi
-  kosli_create_flow "${KOSLI_HOST_STAGING}"
-  kosli_create_flow "${KOSLI_HOST_PRODUCTION}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
 on_ci_kosli_report_artifact()
 {
-  if ! on_ci ; then
-    echo 'Not on CI so not reporint artifact to Kosli'
-    return
+  if on_ci ; then
+    kosli_report_artifact "${KOSLI_HOST_STAGING}"
+    kosli_report_artifact "${KOSLI_HOST_PRODUCTION}"
   fi
-  kosli_report_artifact "${KOSLI_HOST_STAGING}"
-  kosli_report_artifact "${KOSLI_HOST_PRODUCTION}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
 on_ci_kosli_assert_artifact()
 {
-  if ! on_ci ; then
-    return
+  if on_ci ; then
+    kosli_assert_artifact "${KOSLI_HOST_STAGING}"
+    kosli_assert_artifact "${KOSLI_HOST_PRODUCTION}"
   fi
-  kosli_assert_artifact "${KOSLI_HOST_STAGING}"
-  kosli_assert_artifact "${KOSLI_HOST_PRODUCTION}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
