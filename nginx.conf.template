@@ -56,7 +56,7 @@ server {
   set $differ_hostname ${CYBER_DOJO_DIFFER_HOSTNAME};
   set $custom_start_points_hostname ${CYBER_DOJO_CUSTOM_START_POINTS_HOSTNAME};
   set $exercises_start_points_hostname ${CYBER_DOJO_EXERCISES_START_POINTS_HOSTNAME};
-  set $languages_start_points_hostname ${CYBER_DOJO_CREATOR_HOSTNAME};
+  set $languages_start_points_hostname ${CYBER_DOJO_LANGUAGES_START_POINTS_HOSTNAME};
   set $shas_hostname ${CYBER_DOJO_SHAS_HOSTNAME};
   set $runner_hostname ${CYBER_DOJO_RUNNER_HOSTNAME};
   set $web_hostname ${CYBER_DOJO_WEB_HOSTNAME};
